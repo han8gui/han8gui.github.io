@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="From: http://www.centoscn.com/CentOS/help/2014/1030/4025.html
+前言crontab是Unix和Linux用于设置周期性被执行的指令，是互联网很常用的技术，很多任务都会设置在crontab循环执行，如果不使用crontab，那么任务就是常驻程序，这对你的程序要求比较高，一个要求你的程序是24X7小时不宕机，一个是 要求你的调度程序比较可靠，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="定时任务 Crontab命令 详解">
+<meta property="og:url" content="https://han8gui.github.io/2017/01/05/定时任务-Crontab命令-详解/index.html">
+<meta property="og:site_name" content="Han8gui' blog">
+<meta property="og:description" content="From: http://www.centoscn.com/CentOS/help/2014/1030/4025.html
+前言crontab是Unix和Linux用于设置周期性被执行的指令，是互联网很常用的技术，很多任务都会设置在crontab循环执行，如果不使用crontab，那么任务就是常驻程序，这对你的程序要求比较高，一个要求你的程序是24X7小时不宕机，一个是 要求你的调度程序比较可靠，">
+<meta property="og:updated_time" content="2018-05-15T04:06:19.710Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="定时任务 Crontab命令 详解">
+<meta name="twitter:description" content="From: http://www.centoscn.com/CentOS/help/2014/1030/4025.html
+前言crontab是Unix和Linux用于设置周期性被执行的指令，是互联网很常用的技术，很多任务都会设置在crontab循环执行，如果不使用crontab，那么任务就是常驻程序，这对你的程序要求比较高，一个要求你的程序是24X7小时不宕机，一个是 要求你的调度程序比较可靠，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://han8gui.github.io/2017/01/05/定时任务-Crontab命令-详解/"/>
+
+
+
+
+
+  <title>定时任务 Crontab命令 详解 | Han8gui' blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Han8gui' blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://han8gui.github.io/2017/01/05/定时任务-Crontab命令-详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="怦然心动">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Han8gui' blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">定时任务 Crontab命令 详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-05T11:02:32+08:00">
+                2017-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>From: <a href="http://www.centoscn.com/CentOS/help/2014/1030/4025.html" target="_blank" rel="external">http://www.centoscn.com/CentOS/help/2014/1030/4025.html</a></p>
+<p><strong>前言</strong><br>crontab是Unix和Linux用于设置周期性被执行的指令，是互联网很常用的技术，很多任务都会设置在crontab循环执行，如果不使用crontab，那么任务就是常驻程序，这对你的程序要求比较高，一个要求你的程序是24X7小时不宕机，一个是 要求你的调度程序比较可靠，实际工作中，90%的程序都没有必要花这么多时间和精力去解决上面的两个问题的，只需要写好自己的业务逻辑，通过crond这 个工业级程序去调度就行了，crond的可靠性，健壮性，大家应该是毫无疑问的。</p>
+<p><strong>crontab简易入门</strong><br>假设我要设置一个任务，每分钟就要做一个数据同步，这个同步脚本的路径是/home/blue/do/rsyncfile.sh，那么我可以在这么配置，使用blue用户，在终端输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">crontab -e</div><div class="line"></div><div class="line"># 此时会进入 vi 的编辑画面让您编辑工作！注意到，每项工作都是一行。</div><div class="line"></div><div class="line">#分 时 日  月 周      |&lt;==============任务的完整命令行</div><div class="line"></div><div class="line"> *  *  *  *  *       /home/blue/do/rsyncfile.sh</div></pre></td></tr></table></figure>
+<p>默认情况下，任何使用者只要不被列入 /etc/cron.deny 当中，那么他就可以直接下达『 crontab -e 』去编辑自己的例行性命令了！整个过程就如同上面提到的，会进入 vi 的编辑画面， 然后以一个工作一行来编辑，编辑完毕之后输入『 :wq 』储存后离开 vi 就可以了！<br> 假如我们需要修改为每5分钟运行数据同步的脚本，那么同样使用 crontab -e 进入编辑：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">*/5 * * * *  /home/blue/do/rsyncfile.sh</div></pre></td></tr></table></figure>
+<p>假如服务器出了问题，有一天的数据没有同步，于是我们就需要补数据了，假设这个补数据的脚本是/home/blue/do /rsyncfile_day.sh,但是白天是高峰期，晚上用户不多，是低峰期，我们补数据会占用大量带宽，尤其是白天，会影响正常业务，所以一般我们 可以让补数据任务在凌晨2点开始跑，那么同样使用crontab -e 进入编辑：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0 2 1 4 *  /home/blue/do/rsyncfile_day.sh</div></pre></td></tr></table></figure></p>
+<p>这样，在4月1号凌晨2点0分就会开始启动我们的补数据的脚本了。<br>同步数据，在互联网公司是再平常不过的任务了，这里大家可以看到crontab的魅力所在了，只需要写最简单的业务逻辑，把调度交给crond做，就完成了一个可靠性很高的一项任务了，如果要自己去额外写这种调度程序，不知道要花多少精力才能做到可靠稳定。</p>
+<p><strong>crontab的语法</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">crontab [-u username] [-l|-e|-r]</div><div class="line">选项与参数：</div><div class="line">-u  ：只有 root 才能进行这个任务，亦即帮其他使用者创建/移除 crontab 工作排程；</div><div class="line">-e  ：编辑 crontab 的工作内容</div><div class="line">-l  ：查阅 crontab 的工作内容</div><div class="line">-r  ：移除所有的 crontab 的工作内容，若仅要移除一项，请用 -e 去编辑</div></pre></td></tr></table></figure></p>
+<p>查询使用者目前的 crontab 内容:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">crontab -l</div><div class="line">*/5 * * * *  /home/blue/do/rsyncfile.sh</div><div class="line">0 2 1 4 *  /home/blue/do/rsyncfile_day.sh</div></pre></td></tr></table></figure></p>
+<p>清空使用者目前的 crontab:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">crontab -r</div><div class="line">crontab -l</div><div class="line">no crontab for blue</div></pre></td></tr></table></figure></p>
+<p>如果你想删除当前用户的某一个crontab任务，那么使用crontab -e进入编辑器，再删除对应的任务。</p>
+<p><strong>crontab的限制</strong><br>/etc/cron.allow：将可以使用 crontab 的帐号写入其中，若不在这个文件内的使用者则不可使用 crontab；<br>/etc/cron.deny：将不可以使用 crontab 的帐号写入其中，若未记录到这个文件当中的使用者，就可以使用 crontab 。<br>以优先顺序来说， /etc/cron.allow 比 /etc/cron.deny 要优先， 而判断上面，这两个文件只选择一个来限制而已，因此，建议你只要保留一个即可， 免得影响自己在配置上面的判断！一般来说，系统默认是保留 /etc/cron.deny ，你可以将不想让他运行 crontab 的那个使用者写入 /etc/cron.deny 当中，一个帐号一行！</p>
+<p><strong>/etc/crontab配置文件讲解</strong><br>『 crontab -e 』是针对使用者的 cron 来设计的，如果是『系统的例行性任务』时，就要编辑 /etc/crontab 这个文件。<br>那就是 crontab -e 这个 crontab 其实是 /usr/bin/crontab 这个运行档，但是 /etc/crontab 可是一个『纯文字档』,必须用 root 的身份编辑一下这个文件。<br>首先我们要来看看crontab的文件内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat /etc/crontab</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"># /etc/crontab: system-wide crontab</div><div class="line"># Unlike any other crontab you don&apos;t have to run the `crontab&apos;</div><div class="line"># command to install the new version when you edit this file</div><div class="line"># and files in /etc/cron.d. These files also have username fields,</div><div class="line"># that none of the other crontabs do.</div><div class="line"> </div><div class="line">SHELL=/bin/sh</div><div class="line"></div><div class="line">PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin</div><div class="line"> </div><div class="line"># m h dom mon dow user  command</div><div class="line"></div><div class="line">17 *    * * *   root    cd / &amp;&amp; run-parts --report /etc/cron.hourly</div><div class="line"></div><div class="line">25 6    * * *   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.daily )</div><div class="line"></div><div class="line">47 6    * * 7   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.weekly )</div><div class="line"></div><div class="line">52 6    1 * *   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.monthly )</div></pre></td></tr></table></figure>
+<p>这个文件与将刚刚我们下达 crontab -e 的内容几乎完全一模一样！只是有几个地方不太相同<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PATH=....：</div></pre></td></tr></table></figure></p>
+<p>这里就是输入运行档的搜寻路径！使用默认的路径配置就已经很足够了！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">17 * * * *   root    cd / &amp;&amp; run-parts --report /etc/cron.hourly：</div></pre></td></tr></table></figure></p>
+<p>这个 /etc/crontab 里面预配置义出四项工作任务，分别是每小时、每天、每周及每个月分别进行一次的工作！ 但是在五个栏位后面接的并不是命令，而是一个新的栏位，那就是『运行后面那串命令的身份』为何！这与使用者的 crontab -e 不相同。由於使用者自己的 crontab 并不需要指定身份，但 /etc/crontab 里面当然要指定身份啦！以上表的内容来说，系统默认的例行性工作是以 root 的身份来进行的。<br>那么后面那串命令是什么呢？你可以使用『 which run-parts 』搜寻看看，其实那是一个 bash script 啦！如果你直接进入 /usr/bin/run-parts 去看看， 会发现这支命令会将后面接的『目录』内的所有文件捉出来运行！这也就是说『 如果你想让系统每小时主动帮你运行某个命令，将该命令写成 script，并将该文件放置到 /etc/cron.hourly/ 目录下即可』的意思！<br>现在你知道系统是如何进行他默认的一堆例行性工作排程了吗？如果你下达『 ll /etc/cron.daily 』就可以看到一堆文件， 那些文件就是系统提供的 script ，而这堆 scripts 将会在每天的凌晨 6:25 开始运行！<br>假设你现在要作一个目录，让系统可以每 2 分钟去运行这个目录下的所有可以运行的文件，你可以写下如下的这一行在 /etc/crontab 中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">*/2 * * * * root run-parts /etc/cron.min</div></pre></td></tr></table></figure></p>
+<p>当然罗， /etc/cron.min 这个目录是需要存在的喔！那如果我需要运行的是一个『程序』而已， 不需要用到一个目录呢？该如何是好？例如在侦测网络流量时，我们希望每五分钟侦测分析一次， 可以这样写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">*/5 * * * * root /bin/mrtg /etc/mrtg/mrtg.cfg</div></pre></td></tr></table></figure></p>
+<p>如何！创建例行性命令很简单吧！如果你是系统管理员而且你的工作又是系统维护方面的例行任务时， 直接修改 /etc/crontab 这个文件即可喔！又便利，又方便管理呢！</p>
+<p><strong>crontab的原理</strong><br>当使用者使用 crontab 这个命令来创建工作排程之后，该项工作就会被纪录到 /var/spool/cron/ 里面去了，而且是以帐号来作为判别的喔！举例来说， blue 使用 crontab 后， 他的工作会被纪录到 /var/spool/cron/blue 里头去！但请注意，不要使用 vi 直接编辑该文件， 因为可能由于输入语法错误，会导致无法运行 cron 喔！另外， cron 运行的每一项工作都会被纪录到 /var/log/cron 这个登录档中，所以罗，如果你的 Linux 不知道有否被植入木马时，也可以搜寻一下 /var/log/cron 这个登录档呢！<br> crond服务的最低侦测限制是『分钟』，所以『 cron 会每分钟去读取一次 /etc/crontab 与 /var/spool/cron 里面的数据内容 』，因此，只要你编辑完 /etc/crontab 这个文件，并且将他储存之后，那么 cron 的配置就自动的会来运行了！<br>备注：在 Linux 底下的 crontab 会自动的帮我们每分钟重新读取一次 /etc/crontab 的例行工作事项，但是某些原因或者是其他的 Unix 系统中，由于 crontab 是读到内存当中的，所以在你修改完 /etc/crontab 之后，可能并不会马上运行， 这个时候请重新启动 crond 这个服务吧！『/etc/init.d/crond restart』 或 『service crond restart』</p>
+<p><strong>crontab的格式讲解</strong><br>每项工作 (每行) 的格式都是具有六个栏位，这六个栏位的意义为：<br>| 代表意义| 分钟    |小时    |日期（天）    |月份|    周|    命令|<br>| ————- |:————-:| —–:|—–:|—–:|—–:|<br>| 数字范围 |0-59|    0-23|    1-31    |1-12    |0-7    |呀就命令啊|</p>
+<p>比较有趣的是那个『周』喔！周的数字为 0 或 7 时，都代表『星期天』的意思！另外， 还有一些辅助的字符，大概有底下这些：<br>| 特殊字符 | 代表意义|<br>| ————- |:————-:|<br>|<em>(星号)    |代表任何时刻都接受的意思！举例来说，范例一内那个日、月、周都是 </em> ， 就代表著『不论何月、何日的礼拜几的 12:00 都运行后续命令』的意思！<br>|,(逗号)    |代表分隔时段的意思。举例来说，如果要下达的工作是 3:00 与 6:00 时，就会是：0 3,6 <em> </em> <em> command 时间参数还是有五栏，不过第二栏是 3,6 ，代表 3 与 6 都适用！ |<br>|-(减号)    |代表一段时间范围内，举例来说， 8 点到 12 点之间的每小时的 20 分都进行一项工作：20 8-12 </em> <em> </em> command 仔细看到第二栏变成 8-12 喔！代表 8,9,10,11,12 都适用的意思！|<br>|/n(斜线)|那个 n 代表数字，亦即是『每隔 n 单位间隔』的意思，例如每五分钟进行一次，则：<em>/5 </em> <em> </em> <em> command很简单吧！用 </em> 与 /5 来搭配，也可以写成 0-59/5 ，相同意思！|</p>
+<p><strong>周与日月</strong><br>周和日月不是 并 的关系，而是 或 的关系。<br>另一个需要注意的地方在於：『你可以分别以周或者是日月为单位作为循环，但你不可使用「几月几号且为星期几」的模式工作』。 这个意思是说，你不可以这样编写一个工作排程：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">30 12 11 9 5 root echo &quot;just test&quot;   &lt;==这是错误的写法</div></pre></td></tr></table></figure></p>
+<p>本来你以为九月十一号且为星期五才会进行这项工作，无奈的是，系统可能会判定每个星期五作一次，或每年的 9 月 11 号分别进行，如此一来与你当初的规划就不一样了～所以罗，得要注意这个地方！上述的写法是不对的！</p>
+<p><strong>CentOS下查看crontab执行历史记录</strong><br>在crontab中添加了定时任务，但发现没有得到期望的结果，因而怀疑是crontab没有执行相应的任务，但怎么定位crontab是否执行呢？<br>这就需要查看crontab的执行历史记录，具体位置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /var/log</div><div class="line">tail -100 cron</div></pre></td></tr></table></figure></p>
+<p>在cron文件中即可查阅已经操作过的相关定时任务。</p>
+<p>参考资料:<br><a href="http://vbird.dic.ksu.edu.tw/linux_basic/0430cron_3.php" target="_blank" rel="external">http://vbird.dic.ksu.edu.tw/linux_basic/0430cron_3.php</a><br><a href="http://baike.baidu.com/view/1229061.htm" target="_blank" rel="external">http://baike.baidu.com/view/1229061.htm</a> </p>
+<p><strong>一、Crontab 格式说明</strong><br>我们可以用 crontab -e 添加要执行的命令。 命令执行的结果，无论是标准输出还是错误输出，都将以邮件形式发给用户。<br>添加的命令必须以如下格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">* * * * * /command path</div></pre></td></tr></table></figure>
+<p>前五个字段可以取整数值，指定何时开始工作，第六个域是字符串，即命令字段，其中包括了crontab调度执行的命令。 各个字段之间用spaces和tabs分割。</p>
+<p>前5个字段分别表示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">分钟：0-59</div><div class="line">小时：1-23</div><div class="line">日期：1-31</div><div class="line">月份：1-12</div><div class="line">星期：0-6（0表示周日）</div></pre></td></tr></table></figure>
+<p>还可以用一些特殊符号：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">*： 表示任何时刻</div><div class="line">,： 表示分割</div><div class="line">－：表示一个段，如第二端里： 1-5，就表示1到5点</div><div class="line">/n : 表示每个n的单位执行一次，如第二段里，*/1, 就表示每隔1个小时执行一次命令。也可以写成1-23/1.</div></pre></td></tr></table></figure></p>
+<p>一些示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">00 8,12,16 * * * /data/app/scripts/monitor/df.sh</div><div class="line">30 2 * * * /data/app/scripts/hotbackup/hot_database_backup.sh</div><div class="line">10 8,12,16 * * * /data/app/scripts/monitor/check_ind_unusable.sh</div><div class="line">10 8,12,16 * * * /data/app/scripts/monitor/check_maxfilesize.sh</div><div class="line">10 8,12,16 * * * /data/app/scripts/monitor/check_objectsize.sh</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">43 21 * * *              21:43 执行</div><div class="line">15 05 * * *              05:15 执行</div><div class="line">0 17 * * *               17:00 执行</div><div class="line">0 17 * * 1               每周一的 17:00 执行</div><div class="line">0,10 17 * * 0,2,3        每周日,周二,周三的 17:00和 17:10 执行</div><div class="line">0-10 17 1 * *            毎月1日从 17:00到7:10 毎隔1分钟 执行</div><div class="line">0 0 1,15 * 1             毎月1日和 15日和 一日的 0:00 执行</div><div class="line">42 4 1 * *               毎月1日的 4:42分 执行</div><div class="line">0 21 * * 1-6             周一到周六 21:00 执行</div><div class="line">0,10,20,30,40,50 * * * *  每隔10分 执行</div><div class="line">*/10 * * * *              每隔10分 执行</div><div class="line">* 1 * * *                 从1:0到1:59 每隔1分钟 执行</div><div class="line">0 1 * * *                 1:00 执行</div><div class="line">0 */1 * * *               毎时0分 每隔1小时 执行</div><div class="line">0 * * * *                 毎时0分 每隔1小时 执行</div><div class="line">2 8-20/3 * * *            8:02,11:02,14:02,17:02,20:02 执行</div><div class="line">30 5 1,15 * *             1日 和 15日的 5:30 执行</div></pre></td></tr></table></figure>
+<p><strong>二、&amp; 后台执行命令</strong><br>当在前台运行某个作业时，终端被该作业占据；而在后台运行作业时，它不会占据终端。可以使用&amp;命令把作业放到后台执行。<br>如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">30 2 * * * /data/app/scripts/hotbackup/hot_database_backup.sh &amp;</div></pre></td></tr></table></figure>
+<p>在后台运行作业时要当心：需要用户交互的命令不要放在后台执行，因为这样你的机器就会在那里傻等。<br>不过，作业在后台运行一样会将结果输出到屏幕上，干扰你的工作。如果放在后台运行的作业会产生大量的输出，最好使用下面的方法把它的输出重定向到某个文件中：<br>如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">command &gt;out.file 2&gt;&amp;1 &amp;</div></pre></td></tr></table></figure>
+<p>在这个例子中，2&gt;&amp;1表示所有的标准输出和错误输出都将被重定向到一个叫做out.file 的文件中。</p>
+<p><strong>三、2&gt;&amp;1 含义</strong><br>先看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0 2 * * * /u01/test.sh &gt;/dev/null 2&gt;&amp;1 &amp;</div></pre></td></tr></table></figure>
+<p>这句话的意思就是在后台执行这条命令，并将错误输出2重定向到标准输出1，然后将标准输出1全部放到/dev/null 文件，也就是清空。<br>在这里有有几个数字的意思：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">0表示 键盘输入</div><div class="line">1表示 标准输出</div><div class="line">2表示 错误输出</div></pre></td></tr></table></figure>
+<p>我们也可以这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">0 2 * * *  /u01/test.sh  1&gt;/u01/out.file  &amp;</div><div class="line">0 2 * * *  /u01/test.sh  2&gt;/u01/out.file  &amp;</div><div class="line">0 2 * * *  /u01/test.sh  2&gt;/u01/out.file  2&gt;&amp;1 &amp;</div></pre></td></tr></table></figure>
+<p>将tesh.sh 命令输出重定向到out.file, 即输出内容不打印到屏幕上，而是输出到out.file文件中。<br>2&gt;&amp;1 是将错误输出重定向到标准输出。 然后将标准输入重定向到文件out.file。<br>&amp;1 表示的是文件描述1，表示标准输出，如果这里少了&amp;就成了数字1，就表示重定向到文件1。<br>&amp; ：后台执行</p>
+<p>测试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ls 2&gt;1 ： 不会报没有2文件的错误，但会输出一个空的文件1；</div><div class="line">ls xxx 2&gt;1： 没有xxx这个文件的错误输出到了1中；</div><div class="line">ls xxx 2&gt;&amp;1： 不会生成1这个文件了，不过错误跑到标准输出了；</div><div class="line">ls xxx &gt;out.txt 2&gt;&amp;1 == ls xxx 1&gt;out.txt 2&gt;&amp;1：  因为重定向符号&gt;默认是1，这句就把错误输出和标准输出都传到out.txt 文件中。</div></pre></td></tr></table></figure>
+<p><strong>四、2&gt;&amp;1写在后面的原因</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式：command &gt; file 2&gt;&amp;1   ==  command  1&gt; file 2&gt;&amp;1</div></pre></td></tr></table></figure>
+<p>首先是command &gt; file将标准输出重定向到file中， 2&gt;&amp;1 是标准错误拷贝了标准输出，也就是同样被重定向到file中，最终结果就是标准输出和错误都被重定向到file中。<br>如果改成： command 2&gt;&amp;1 &gt;file<br>2&gt;&amp;1 标准错误拷贝了标准输出的行为，但此时标准输出还是在终端。&gt;file 后输出才被重定向到file，但标准错误仍然保持在终端。</p>
+<p>延伸阅读：<br>Shell标准输出、标准错误 &gt;/dev/null 2&gt;&amp;1<br>如何让Linux定时任务crond以秒为单位执行(如每隔3秒)</p>
+<p>经验教训：<br>打算在服务器上 每天晚上23:00 定时执行Python脚本，去备份MySql数据库，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">* 23 * * * python /var/www/html/crontab_python/back_db.py &gt;/dev/null 2&gt;&amp;1</div></pre></td></tr></table></figure>
+<p>结果呢，每次备份都产生了 60份 备份文件，仔细查看定时任务命令，发现在“分”的位置上，少加了个“0”，因为“*”表示该位置的任何一个值，修改如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0 23 * * * python /var/www/html/crontab_python/back_db.py &gt;/dev/null 2&gt;&amp;1</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">0 4 * * * /usr/local/php/bin/php /usr/local/nginx/www/backup-db/backup_db.php 172.16.8.26 &gt;/dev/null 2&gt;&amp;1</div><div class="line">0 4 * * * /usr/local/php/bin/php /usr/local/nginx/www/backup-db/backup_db.php 172.16.10.151 &gt;/dev/null 2&gt;&amp;1</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/07/mysql处理海量数据时的一些优化查询速度方法/" rel="prev" title="mysql处理海量数据时的一些优化查询速度方法">
+                mysql处理海量数据时的一些优化查询速度方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">怦然心动</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">怦然心动</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="HTTP," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="版本说明一. HTTP 0.99版本命令:GET用法: GET /index.html响应:123&amp;lt;html&amp;gt;  &amp;lt;body&amp;gt;Hello World&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;
+二. HTTP 1.0版本
+命令: GET、POST、HEAD
+通用头部:主要用于传达关于消息本身的信息，而不是它所携带的内容。12345Request URL:http:/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP协议入门">
+<meta property="og:url" content="https://han8gui.github.io/2017/05/23/HTTP协议入门/index.html">
+<meta property="og:site_name" content="Han8gui' blog">
+<meta property="og:description" content="版本说明一. HTTP 0.99版本命令:GET用法: GET /index.html响应:123&amp;lt;html&amp;gt;  &amp;lt;body&amp;gt;Hello World&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;
+二. HTTP 1.0版本
+命令: GET、POST、HEAD
+通用头部:主要用于传达关于消息本身的信息，而不是它所携带的内容。12345Request URL:http:/">
+<meta property="og:updated_time" content="2018-05-15T04:06:19.703Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTP协议入门">
+<meta name="twitter:description" content="版本说明一. HTTP 0.99版本命令:GET用法: GET /index.html响应:123&amp;lt;html&amp;gt;  &amp;lt;body&amp;gt;Hello World&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;
+二. HTTP 1.0版本
+命令: GET、POST、HEAD
+通用头部:主要用于传达关于消息本身的信息，而不是它所携带的内容。12345Request URL:http:/">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://han8gui.github.io/2017/05/23/HTTP协议入门/"/>
+
+
+
+
+
+  <title>HTTP协议入门 | Han8gui' blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Han8gui' blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://han8gui.github.io/2017/05/23/HTTP协议入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="怦然心动">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Han8gui' blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">HTTP协议入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-23T23:13:00+08:00">
+                2017-05-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="版本说明"><a href="#版本说明" class="headerlink" title="版本说明"></a>版本说明</h1><h2 id="一-HTTP-0-99版本"><a href="#一-HTTP-0-99版本" class="headerlink" title="一. HTTP 0.99版本"></a>一. HTTP 0.99版本</h2><p>命令:GET<br>用法: GET /index.html<br>响应:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">  &lt;body&gt;Hello World&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<h2 id="二-HTTP-1-0版本"><a href="#二-HTTP-1-0版本" class="headerlink" title="二. HTTP 1.0版本"></a>二. HTTP 1.0版本</h2><ol>
+<li>命令: GET、POST、HEAD</li>
+<li>通用头部:主要用于传达关于消息本身的信息，而不是它所携带的内容。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Request URL:http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html</div><div class="line">Request Method:GET</div><div class="line">Status Code:200 OK</div><div class="line">Remote Address:116.251.204.42:80</div><div class="line">Referrer Policy:no-referrer-when-downgrade</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>请求格式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div><div class="line">Accept-Encoding:gzip, deflate, sdch</div><div class="line">Accept-Language:zh-CN,zh;q=0.8</div><div class="line">Cache-Control:max-age=0</div><div class="line">Connection:keep-alive</div><div class="line">Cookie:_ga=GA1.2.81864988.1486909163; _gid=GA1.2.993479087.1495547947</div><div class="line">Host:www.ruanyifeng.com</div><div class="line">If-Modified-Since:Thu, 18 May 2017 00:37:52 GMT</div><div class="line">If-None-Match:&quot;3dc9a-54fc19d6cf800-gzip&quot;</div><div class="line">Referer:http://www.ruanyifeng.com/blog/2016/08/http.html</div><div class="line">Upgrade-Insecure-Requests:1</div><div class="line">User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.96 Safari/537.36Accept-Ranges:bytes</div><div class="line">Connection:Keep-Alive</div><div class="line">Content-Encoding:gzip</div><div class="line">Content-Length:48951</div><div class="line">Content-Type:text/html</div><div class="line">Date:Tue, 23 May 2017 14:03:26 GMT</div><div class="line">ETag:&quot;3dc9a-54fc19d6cf800-gzip&quot;</div><div class="line">Keep-Alive:timeout=5, max=100</div><div class="line">Last-Modified:Thu, 18 May 2017 00:37:52 GMT</div><div class="line">Server:Apache</div><div class="line">Vary:Accept-Encoding</div></pre></td></tr></table></figure></p>
+<p>响应格式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Accept-Ranges:bytes</div><div class="line">Connection:Keep-Alive</div><div class="line">Content-Encoding:gzip</div><div class="line">Content-Length:48951</div><div class="line">Content-Type:text/html</div><div class="line">Date:Tue, 23 May 2017 14:03:26 GMT</div><div class="line">ETag:&quot;3dc9a-54fc19d6cf800-gzip&quot;</div><div class="line">Keep-Alive:timeout=5, max=100</div><div class="line">Last-Modified:Thu, 18 May 2017 00:37:52 GMT</div><div class="line">Server:Apache</div><div class="line">Vary:Accept-Encoding</div></pre></td></tr></table></figure></p>
+<ol>
+<li><p>详细说明<br>Content-Encoding：数据的压缩方法<br>Content-Type:数据格式</p>
+</li>
+<li><p>缺点</p>
+</li>
+</ol>
+<blockquote>
+<p>HTTP/1.0 版的主要缺点是，每个TCP连接只能发送一个请求。发送数据完毕，连接就关闭，如果还要请求其他资源，就必须再新建一个连接。</p>
+</blockquote>
+<p>解决方法：Connection: keep-alive</p>
+<h2 id="三、-HTTP-1-1"><a href="#三、-HTTP-1-1" class="headerlink" title="三、 HTTP/1.1"></a>三、 HTTP/1.1</h2><ol>
+<li>持久连接</li>
+<li>管道机制</li>
+<li>Content-Length 字段</li>
+</ol>
+<h1 id="HTTP基础"><a href="#HTTP基础" class="headerlink" title="HTTP基础"></a>HTTP基础</h1><p>一、HTTP方法<br>|HTTP方法| 描述|<br>| :——–   | —–  |<br>|GET    |从服务器向客户端发送命名资源|<br>|PUT    |将客户端的数据存储到一个命名的服务器资源中去|<br>|DELETE |从客户端删除命名资源|<br>|POST   |将客户端数据发送到一个服务器网关应用程序|<br>|HEAD   |仅发送命名资源相应中的HTTP头部|</p>
+<p>二、状态码<br>|整体范围|已定义范围|分类|<br>|:–:|:–:|:–:|<br>|100-199|100-101|信息提示|<br>|200-299|200-206|成功|<br>|300-399|300-305|重定向|<br>|400-499|400-415|客户端错误|<br>|500-599|500-505|服务器错误|</p>
+<p>三、网络模型<br>|模型层次| 描述|例子<br>| :——–   | —–  |<br>|HTTP    |应用层|DHCP（v6） DNS FTP Gopher HTTP（SPDY、HTTP/2） IMAP4 IRC NNTP XMPP POP3 SIP SMTP SNMP SSH TELNET RPC RTCP RTP RTSP SDP SOAP GTP STUN NTP SSDP|<br>|TCP     |传输层|TCP（T/TCP · Fast Open） UDP DCCP SCTP RSVP PPTP TLS/SSL|<br>|IP      |网络层|IP（v4·v6） ICMP（v6） IGMP IS-IS IPsec BGP RIP OSPF RARP|<br>|链路层  |数据链路层|Wi-Fi（IEEE 802.11） ARP WiMAX（IEEE 802.16） ATM DTM 令牌环 以太网 FDDI 帧中继 GPRS EV-DO HSPA HDLC PPP PPPoE L2TP ISDN SPB STP|<br>|物理网络硬件| 物理层|以太网 调制解调器 电力线通信 同步光网络 G.709 光导纤维 同轴电缆 双绞线|</p>
+<p>四、从输入URL到页面加载完成的过程中都发生了什么事情</p>
+<ol>
+<li>浏览器查找域名的IP地址:这一步包括DNS具体的查找过程，包括：浏览器缓存-&gt;系统缓存-&gt;路由器缓存…</li>
+<li>浏览器向web服务器发送一个HTTP请求;</li>
+<li>服务器的永久重定向响应; </li>
+<li>浏览器跟踪重定向地址; </li>
+<li>服务器处理请求;</li>
+<li>服务器返回一个HTTP响应; </li>
+<li>浏览器显示HTML;</li>
+<li>浏览器发送请求获取嵌入在HTML中的资源（如图片、音频、视频、CSS、JS等等）;</li>
+<li>浏览器发送异步请求;</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HTTP/" rel="tag"># HTTP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/17/PHP程序如何debug/" rel="next" title="PHP程序如何debug?">
+                <i class="fa fa-chevron-left"></i> PHP程序如何debug?
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/30/MVC中的service层是干嘛的？/" rel="prev" title="MVC中的service层是干嘛的？">
+                MVC中的service层是干嘛的？ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">怦然心动</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#版本说明"><span class="nav-number">1.</span> <span class="nav-text">版本说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-HTTP-0-99版本"><span class="nav-number">1.1.</span> <span class="nav-text">一. HTTP 0.99版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-HTTP-1-0版本"><span class="nav-number">1.2.</span> <span class="nav-text">二. HTTP 1.0版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、-HTTP-1-1"><span class="nav-number">1.3.</span> <span class="nav-text">三、 HTTP/1.1</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP基础"><span class="nav-number">2.</span> <span class="nav-text">HTTP基础</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">怦然心动</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
